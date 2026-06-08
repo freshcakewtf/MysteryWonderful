@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mystery Wonderful — Open Character</title>
+  <meta name="description" content="Mystery Wonderful is an open character from Nowhere, New Hampshire. Remix his world in Adobe Firefly.">
+  <meta property="og:title" content="Mystery Wonderful — Open Character">
+  <meta property="og:description" content="A man whose life is so average it's almost supernatural. Remix his world. Make it yours.">
+  <meta property="og:image" content="Lib/img/RenderedScenes/scene-09.png">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:          #070605;
+      --bg-warm:     #0e0c0a;
+      --bg-card:     #161210;
+      --bg-elevated: #1e1a16;
+      --text:        #c2b49a;
+      --text-dim:    #6b5e4e;
+      --text-faint:  #3a3028;
+      --accent:      #c4822a;
+      --accent-dim:  #3d2810;
+      --cream:       #e8dfc8;
+      --blue:        #2d4f72;
+      --orange:      #d4691e;
+      --font: 'Spectral', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Film grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.038;
+      pointer-events: none;
+      z-index: 9998;
+      animation: filmGrain 0.4s steps(3) infinite;
+    }
+
+    @keyframes filmGrain {
+      0%   { transform: translate(0, 0); }
+      33%  { transform: translate(-2%, -2%); }
+      66%  { transform: translate(2%, 1%); }
+      100% { transform: translate(-1%, 2%); }
+    }
+
+    /* ─── Nav ─── */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 1.5rem 2.5rem;
+      transition: background 0.4s, padding 0.4s;
+    }
+
+    #nav.scrolled {
+      background: rgba(7,6,5,0.96);
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--text-faint);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--cream); }
+
+    .nav-cta {
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 0.6rem 1.4rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--cream);
+    }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('Lib/img/RenderedScenes/scene-09.png');
+      background-size: cover;
+      background-position: center 30%;
+      filter: brightness(0.38) saturate(0.75);
+      transform: scale(1.04);
+    }
+
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at center, transparent 30%, rgba(7,6,5,0.7) 100%),
+        linear-gradient(to bottom, rgba(7,6,5,0.5) 0%, transparent 30%, transparent 55%, rgba(7,6,5,0.95) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    a.hero-eyebrow:hover { color: var(--cream); }
+
+    .hero-title {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: clamp(3.5rem, 11vw, 9rem);
+      line-height: 0.88;
+      color: var(--cream);
+      margin-bottom: 2.5rem;
+      text-shadow: 0 2px 40px rgba(0,0,0,0.8);
+    }
+
+    .hero-sub {
+      font-family: var(--font);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      color: var(--text);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-bottom: 3rem;
+    }
+
+    .hero-cta {
+      display: inline-block;
+      font-family: var(--font);
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 1rem 2.5rem;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .hero-cta:hover {
+      background: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-dim);
+      font-family: var(--font);
+      font-weight: 300;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      animation: fadeInUp 2s 1.5s both;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-dim), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollLine {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 0.8; transform: scaleY(1.2); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ─── Shared Section Styles ─── */
+    section { position: relative; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-label {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      color: var(--accent);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+
+    .divider {
+      width: 60px;
+      height: 1px;
+      background: var(--text-faint);
+      margin: 0 auto 4rem;
+    }
+
+    /* ─── Meet Mystery ─── */
+    .meet {
+      padding: 8rem 0;
+      background: var(--bg);
+    }
+
+    .meet-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .meet-text .section-label { margin-bottom: 1rem; }
+
+    .meet-title {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      line-height: 1.05;
+      margin-bottom: 2rem;
+    }
+
+    .meet-lore {
+      font-family: var(--font);
+      font-weight: 400;
+      color: var(--text);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+
+    .meet-lore + .meet-lore { margin-top: 1.25rem; }
+
+    .pull-quote {
+      border-left: 2px solid var(--accent);
+      padding-left: 1.5rem;
+      margin: 2.5rem 0;
+      font-family: var(--font);
+      font-weight: 500;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--cream);
+      line-height: 1.6;
+    }
+
+    .meet-character {
+      position: relative;
+    }
+
+    .meet-character img {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.8));
+    }
+
+    /* ─── The World ─── */
+    .world {
+      padding: 8rem 0;
+      background: var(--bg-warm);
+    }
+
+    .world-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 5rem;
+    }
+
+    .world-title {
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .world-desc {
+      font-family: var(--font);
+      font-weight: 400;
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    .world-keywords {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .keyword {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 0.35rem 0.85rem;
+      border: 1px solid var(--text-faint);
+    }
+
+    /* ─── Scene Gallery / Grid ─── */
+    .gallery {
+      padding: 0 0 8rem;
+      background: var(--bg-warm);
+    }
+
+    .masonry {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
+    }
+
+    .m-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+
+    .m-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: brightness(0.72) saturate(0.82);
+      transition: filter 0.55s ease;
+    }
+
+    .m-item:hover img {
+      filter: brightness(1) saturate(1);
+    }
+
+    /* ─── Character Sheet ─── */
+    .charsheet {
+      padding: 8rem 0;
+      background: var(--bg);
+    }
+
+    .charsheet-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .charsheet-text .section-label { margin-bottom: 1rem; }
+
+    .charsheet-title {
+      font-family: var(--font);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 2rem;
+      line-height: 1.1;
+    }
+
+    .trait-list {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+
+    .trait-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--text-faint);
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .trait-list li::before {
+      content: '—';
+      color: var(--accent);
+      font-family: var(--font);
+      flex-shrink: 0;
+    }
+
+    .charsheet-img img {
+      width: 100%;
+      display: block;
+      filter: drop-shadow(0 10px 40px rgba(0,0,0,0.6));
+    }
+
+    /* ─── In Motion (Video) ─── */
+    .motion {
+      padding: 8rem 0;
+      background: var(--bg-warm);
+    }
+
+    .motion-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .motion-title {
+      font-family: var(--font);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .motion-sub {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1rem;
+    }
+
+    .video-layout {
+      display: flex;
+      gap: 4px;
+    }
+
+    .v-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .v-item {
+      overflow: hidden;
+      background: var(--bg-card);
+      cursor: pointer;
+    }
+
+    .v-item video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      filter: brightness(0.7);
+      transition: filter 0.4s;
+    }
+
+    .v-tall video { aspect-ratio: 3/4; }
+
+    .v-item:hover video { filter: brightness(1); }
+
+    .btn-outline {
+      display: inline-block;
+      font-family: var(--font);
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.8rem 2rem;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    /* ─── Memes ─── */
+    .memes {
+      padding: 8rem 0;
+      background: var(--bg-warm);
+    }
+
+    .memes-header {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+
+    .memes-title {
+      font-family: var(--font);
+      font-size: clamp(2rem, 4vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .memes-sub {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .mixed-grid {
+      column-count: 3;
+      column-gap: 0;
+      column-fill: balance;
+    }
+
+    .mixed-item {
+      break-inside: avoid;
+      overflow: hidden;
+      background: var(--bg-card);
+      cursor: pointer;
+      margin-bottom: 0;
+    }
+
+    .mixed-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: brightness(0.72) saturate(0.82);
+      transition: filter 0.4s ease;
+    }
+
+    .mixed-item:hover img {
+      filter: brightness(0.9) saturate(1);
+    }
+
+    .mixed-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 3rem 1.25rem 1rem;
+      background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.75));
+      color: #fff;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: clamp(0.85rem, 1.8vw, 1.35rem);
+      text-transform: uppercase;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.95);
+      pointer-events: none;
+    }
+
+    .mixed-caption--top {
+      top: 0;
+      bottom: auto;
+      padding: 1rem 1.25rem 3rem;
+      background: linear-gradient(to top, transparent, rgba(0,0,0,0.75));
+    }
+
+    .mixed-caption--right { text-align: right; }
+
+    .mixed-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 3rem;
+      height: 3rem;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 2px solid rgba(255,255,255,0.5);
+      pointer-events: none;
+      transition: background 0.25s, border-color 0.25s;
+    }
+
+    .mixed-play::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 54%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 7px 0 7px 13px;
+      border-color: transparent transparent transparent rgba(255,255,255,0.85);
+    }
+
+    .mixed-item:hover .mixed-play {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.78);
+    }
+
+    /* ─── Remix CTA ─── */
+    .remix {
+      position: relative;
+      padding: 10rem 0;
+      overflow: hidden;
+    }
+
+    .remix-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('Lib/img/RenderedScenes/scene-07.png');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.22) saturate(0.6);
+    }
+
+    .remix-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(7,6,5,0.6) 100%);
+    }
+
+    .remix-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .remix-text .section-label { margin-bottom: 1rem; }
+
+    .remix-title {
+      font-family: var(--font);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--cream);
+      line-height: 0.95;
+      margin-bottom: 2rem;
+    }
+
+    .remix-desc {
+      color: var(--text);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .remix-steps {
+      list-style: none;
+      margin-bottom: 2.5rem;
+    }
+
+    .remix-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      padding: 0.6rem 0;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .step-num {
+      font-family: var(--font);
+      font-size: 0.65rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      min-width: 2rem;
+      padding-top: 0.25rem;
+    }
+
+    .remix-btn {
+      display: inline-block;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 1.1rem 3rem;
+      text-decoration: none;
+      transition: background 0.25s, transform 0.25s;
+    }
+
+    .remix-btn:hover {
+      background: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    .remix-preview {
+      position: relative;
+    }
+
+    .board-frame {
+      position: relative;
+      border: 1px solid var(--text-faint);
+      overflow: hidden;
+    }
+
+    .board-frame img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.9) saturate(0.85);
+    }
+
+    .board-frame::before {
+      content: 'ADOBE FIREFLY BOARD';
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-family: var(--font);
+      font-size: 0.55rem;
+      letter-spacing: 0.4em;
+      color: var(--accent);
+      z-index: 1;
+      background: rgba(7,6,5,0.8);
+      padding: 0.25rem 0.6rem;
+    }
+
+    .board-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--accent-dim);
+      pointer-events: none;
+    }
+
+    /* ─── Open License Note ─── */
+    .open {
+      padding: 6rem 0;
+      background: var(--bg);
+      text-align: center;
+    }
+
+    .open-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .open-title {
+      font-family: var(--font);
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+    }
+
+    .open-desc {
+      max-width: 600px;
+      margin: 0 auto 1.5rem;
+      color: var(--text);
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .open-license {
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      line-height: 1.75;
+    }
+
+    .open-license a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .open-license a:hover { color: var(--cream); }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 3rem 2.5rem;
+      background: var(--bg);
+      border-top: 1px solid var(--text-faint);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .footer-name {
+      font-family: var(--font);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-byline {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.75rem;
+      color: var(--text-faint);
+    }
+
+    .footer-byline a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-byline a:hover { color: var(--cream); }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .footer-links a {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-license {
+      font-family: var(--font);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: var(--text-faint);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-license:hover { color: var(--accent); }
+
+    /* ─── Lightbox ─── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(7,6,5,0.95);
+      z-index: 9000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: var(--cream); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      #nav {
+        padding: 1rem 1.5rem;
+      }
+
+      .nav-links { display: none; }
+
+      .meet-inner,
+      .charsheet-inner,
+      .remix-inner { grid-template-columns: 1fr; gap: 3rem; }
+
+      .meet-character { order: -1; max-width: 340px; margin: 0 auto; }
+      .charsheet-img  { order: -1; }
+
+      .masonry { grid-template-columns: repeat(3, 1fr); }
+
+      .mixed-grid { column-count: 2; }
+      .footer-links { gap: 1.25rem; }
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+
+      .masonry { grid-template-columns: repeat(2, 1fr); }
+
+      .video-layout { flex-direction: column; }
+      .v-col { flex-direction: row; }
+      .v-col .v-item { flex: 1; }
+      .v-tall video { aspect-ratio: 16/9; }
+      .mixed-grid { column-count: 2; }
+
+      footer { flex-direction: column; text-align: center; }
+      .footer-left { align-items: center; }
+      .footer-links { justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Nav ─── -->
+  <nav id="nav">
+    <a href="https://firefly.adobe.com/boards/published/urn:aaid:sc:US:ff6f97b6-469a-4480-8e54-9eb34508b6d0" target="_blank" rel="noopener" class="nav-cta">Open the Board</a>
+    <div class="nav-links">
+      <a href="#remix">Remix</a>
+      <a href="#world">World</a>
+      <a href="#character">Character</a>
+    </div>
+  </nav>
+
+  <!-- ─── Hero ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-content">
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" class="hero-eyebrow">Free to Use · Free to Remix</a>
+      <h1 class="hero-title">Mystery<br>Wonderful</h1>
+      <p class="hero-sub">A man whose life is so average it's almost supernatural.</p>
+      <a href="https://firefly.adobe.com/boards/published/urn:aaid:sc:US:ff6f97b6-469a-4480-8e54-9eb34508b6d0" target="_blank" rel="noopener" class="hero-cta">Open the Board &rarr;</a>
+    </div>
+    <div class="scroll-hint">scroll</div>
+  </section>
+
+  <!-- ─── Meet Mystery ─── -->
+  <section class="meet" id="about">
+    <div class="container">
+      <div class="meet-inner">
+        <div class="meet-text">
+          <span class="section-label">Who Is He</span>
+          <h2 class="meet-title">Meet Mystery Wonderful</h2>
+          <p class="meet-lore">He lives in Nowhere, New Hampshire — a small town tucked into the foothills where the woods are crowded with weeds that grew into trees and the stores all close by 8pm. Above a burned-out laundromat is his apartment. Down the street is Dottie's Library, where he rents books and DVDs he watches on a 13" CRT.</p>
+          <p class="meet-lore">He listens to CDs on an old Walkman. He doesn't own a smartphone. He's never late. He makes soup from scratch. And lots of thrifting, of course.</p>
+          <blockquote class="pull-quote">He's not waiting for anything. He's just there, the way people used to be before everything got loud.</blockquote>
+          <p class="meet-lore">You'll usually find him in the in-between places. Empty laundromats at 11pm. Gas station parking lots at dawn. The back booth of a diner that's about to close.</p>
+        </div>
+        <div class="meet-character">
+          <img src="Lib/img/CharacterArt/char-01.png" alt="Mystery Wonderful — character art">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Remix CTA ─── -->
+  <section class="remix" id="remix">
+    <div class="remix-bg"></div>
+    <div class="container">
+      <div class="remix-inner">
+        <div class="remix-text">
+          <span class="section-label">Make It Yours</span>
+          <h2 class="remix-title">Remix the<br>World</h2>
+          <p class="remix-desc">Mystery Wonderful is an open character. His lore, his look, his world — all of it is yours to build on. Drop him in a new scene, write him into a new story, put him somewhere unexpected.</p>
+          <ul class="remix-steps">
+            <li>
+              <span class="step-num">01</span>
+              <span>Open the Adobe Firefly Board — all character references, scenes, and tone guidelines in one place.</span>
+            </li>
+            <li>
+              <span class="step-num">02</span>
+              <span>Hit "Remix" to make your own copy of the board with all assets unlocked.</span>
+            </li>
+            <li>
+              <span class="step-num">03</span>
+              <span>Create. Add new scenes, locations, stories. Expand the universe.</span>
+            </li>
+          </ul>
+          <a href="https://firefly.adobe.com/boards/published/urn:aaid:sc:US:ff6f97b6-469a-4480-8e54-9eb34508b6d0" target="_blank" rel="noopener" class="remix-btn">Open the Board &rarr;</a>
+        </div>
+        <div class="remix-preview">
+          <div class="board-frame">
+            <img src="Lib/img/Screenshots/board-preview.png" alt="Adobe Firefly Board preview" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── The World ─── -->
+  <section class="world" id="world">
+    <div class="container">
+      <div class="world-header">
+        <span class="section-label">Tone &amp; Direction</span>
+        <h2 class="world-title">The World of Mystery Wonderful</h2>
+        <p class="world-desc">If it feels paused, gently nostalgic, and just slightly off — you're in the right place. Stillness over action. The mood is quiet, dim, and a little melancholy, but never bleak. Think golden light in a dark room. Comfort and unease sharing the same frame.</p>
+        <div class="world-keywords">
+          <span class="keyword">Liminal</span>
+          <span class="keyword">Nostalgic</span>
+          <span class="keyword">Quiet</span>
+          <span class="keyword">Slightly Off</span>
+          <span class="keyword">Warm Unease</span>
+          <span class="keyword">In-Between</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scene gallery — full-bleed -->
+    <div class="gallery" id="gallery">
+      <div class="masonry">
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-09.png')">
+          <img src="Lib/img/RenderedScenes/scene-09.png" alt="Bus stop at night" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-05.png')">
+          <img src="Lib/img/RenderedScenes/scene-05.png" alt="Autumn forest at night" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-03.png')">
+          <img src="Lib/img/RenderedScenes/scene-03.png" alt="Abandoned mall" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-07.png')">
+          <img src="Lib/img/RenderedScenes/scene-07.png" alt="Arcade at night" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-08.png')">
+          <img src="Lib/img/RenderedScenes/scene-08.png" alt="Storage units at dusk" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-02.png')">
+          <img src="Lib/img/RenderedScenes/scene-02.png" alt="Scene" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-10.png')">
+          <img src="Lib/img/RenderedScenes/scene-10.png" alt="Scene" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-11.png')">
+          <img src="Lib/img/RenderedScenes/scene-11.png" alt="Scene" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-12.png')">
+          <img src="Lib/img/RenderedScenes/scene-12.png" alt="Scene" loading="lazy">
+        </div>
+        <div class="m-item" onclick="openLightbox('Lib/img/RenderedScenes/scene-06.png')">
+          <img src="Lib/img/RenderedScenes/scene-06.png" alt="Scene" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Character Sheet ─── -->
+  <section class="charsheet" id="character">
+    <div class="container">
+      <div class="charsheet-inner">
+        <div class="charsheet-text">
+          <span class="section-label">The Character</span>
+          <h2 class="charsheet-title">Average. Quiet.<br>Kind of Weird<br>(in a good way).</h2>
+          <ul class="trait-list">
+            <li>Lives above a burned-out laundromat in Nowhere, NH</li>
+            <li>Rents books &amp; DVDs from Dottie's Library</li>
+            <li>Listens to CDs on a Walkman</li>
+            <li>No smartphone. Never late. Makes soup from scratch.</li>
+            <li>Avid thrifter</li>
+            <li>Always in the in-between places</li>
+          </ul>
+          <p style="color: var(--text-dim); font-style: italic; font-size: 0.95rem; line-height: 1.7;">Mystery Wonderful is an open character — free to use, remix, and build upon. He belongs to no one. Or maybe everyone.</p>
+        </div>
+        <div class="charsheet-img">
+          <img src="Lib/img/CharacterArt/char-04.png" alt="Mystery Wonderful — character poses and traits" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── In Motion ─── -->
+  <section class="motion" id="motion">
+    <div class="container">
+      <div class="motion-header">
+        <span class="section-label">In Motion</span>
+        <h2 class="motion-title">Animated &amp; Moving</h2>
+        <p class="motion-sub">Short clips from the Mystery Wonderful universe.</p>
+      </div>
+    </div>
+    <div class="video-layout">
+      <div class="v-col">
+        <div class="v-item v-tall">
+          <video autoplay muted loop playsinline>
+            <source src="Lib/Video/video-01.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="v-item">
+          <video muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()">
+            <source src="Lib/Video/video-03.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="v-col">
+        <div class="v-item v-tall">
+          <video muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()">
+            <source src="Lib/Video/video-02.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="v-item">
+          <video muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()">
+            <source src="Lib/Video/video-04.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="v-col">
+        <div class="v-item v-tall">
+          <video muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()">
+            <source src="Lib/Video/video-06.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="v-item">
+          <video muted loop playsinline onmouseenter="this.play()" onmouseleave="this.pause()">
+            <source src="Lib/Video/video-05.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── He Lives in the Format ─── -->
+  <section class="memes" id="memes">
+    <div class="container">
+      <div class="memes-header">
+        <span class="section-label">From the Universe</span>
+        <h2 class="memes-title">He Lives in the Format</h2>
+        <p class="memes-sub">Mystery Wonderful has a natural gift for the meme. Relatable by accident.</p>
+      </div>
+      <div class="mixed-grid">
+
+        <!-- row 1 -->
+        <div class="mixed-item" onclick="openLightbox('Lib/gif/giphy-4.gif')">
+          <img src="Lib/gif/giphy-4.gif" alt="Mystery Wonderful" loading="lazy">
+        </div>
+        <div class="mixed-item" onclick="openLightbox('Lib/Memes/meme-02.png')">
+          <img src="Lib/Memes/meme-02.png" alt="Mystery Wonderful" loading="lazy">
+        </div>
+        <div class="mixed-item" onclick="openLightbox('Lib/Memes/meme-01.png')">
+          <img src="Lib/Memes/meme-01.png" alt="Mystery Wonderful" loading="lazy">
+        </div>
+
+        <!-- row 2 -->
+        <div class="mixed-item" onclick="openLightbox('Lib/gif/giphy-1.gif')">
+          <img src="Lib/gif/giphy-1.gif" alt="Mystery Wonderful" loading="lazy">
+        </div>
+        <div class="mixed-item" onclick="openLightbox('Lib/gif/giphy-2.gif')">
+          <img src="Lib/gif/giphy-2.gif" alt="Mystery Wonderful" loading="lazy">
+        </div>
+        <div class="mixed-item" onclick="openLightbox('Lib/gif/giphy-3.gif')">
+          <img src="Lib/gif/giphy-3.gif" alt="Mystery Wonderful" loading="lazy">
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Open Character Note ─── -->
+  <section class="open">
+    <div class="container">
+      <div class="open-icon">👁️‍🗨️</div>
+      <h2 class="open-title">Open Character. No Gatekeeping.</h2>
+      <p class="open-desc">Mystery Wonderful is free-range. Drop him into your short film, your zine, your 3am Tumblr post, your friend's birthday card, the graphic novel that's been 70% done for three years. No permission slip, no DMs, no NDAs. He's been in the back booth this whole time, wondering when you'd show up.</p>
+      <p class="open-license">He travels under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">Creative Commons BY-NC-SA 4.0</a> license. Plain English: remix freely, credit the source, keep it non-commercial, and share what you make under the same open terms. That's it. No lawyers required.</p>
+      <a href="https://firefly.adobe.com/boards/published/urn:aaid:sc:US:ff6f97b6-469a-4480-8e54-9eb34508b6d0" target="_blank" rel="noopener" class="btn-outline">Start Creating &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-left">
+      <span class="footer-name">Mystery Wonderful</span>
+      <span class="footer-byline">An open character by <a href="https://www.freshcake.wtf" target="_blank" rel="noopener">Fresh Cake</a></span>
+      <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" class="footer-license">CC BY-NC-SA 4.0</a>
+    </div>
+    <nav class="footer-links">
+      <a href="https://firefly.adobe.com/boards/published/urn:aaid:sc:US:ff6f97b6-469a-4480-8e54-9eb34508b6d0" target="_blank" rel="noopener">Firefly Board</a>
+      <a href="#remix">Remix</a>
+      <a href="#world">World</a>
+      <a href="#character">Character</a>
+    </nav>
+  </footer>
+
+  <!-- ─── Lightbox ─── -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  </div>
+
+  <!-- ─── Ko-fi Widget ─── -->
+  <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js' crossorigin="anonymous"></script>
+  <script>
+    kofiWidgetOverlay.draw('freshcake', {
+      'type': 'floating-chat',
+      'floating-chat.donateButton.text': 'Support',
+      'floating-chat.donateButton.background-color': '#c4822a',
+      'floating-chat.donateButton.text-color': '#070605'
+    });
+  </script>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    // Nav scroll state
+    const navEl = document.getElementById('nav');
+    window.addEventListener('scroll', function() {
+      navEl.classList.toggle('scrolled', window.pageYOffset > 60);
+    }, { passive: true });
+
+    // Subtle parallax on hero bg
+    const heroBg = document.querySelector('.hero-bg');
+    window.addEventListener('scroll', function() {
+      const scrolled = window.pageYOffset;
+      if (heroBg && scrolled < window.innerHeight) {
+        heroBg.style.transform = 'scale(1.04) translateY(' + (scrolled * 0.25) + 'px)';
+      }
+    }, { passive: true });
+
+    // Intersection Observer for fade-in
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      }),
+      { threshold: 0.1 }
+    );
+
+    document.querySelectorAll('.meet-inner, .charsheet-inner, .remix-inner, .world-header, .motion-header, .memes-header').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
